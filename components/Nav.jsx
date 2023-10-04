@@ -10,17 +10,17 @@ import {
 } from "next-auth/react"
 
 const Nav = () => {
-  const isUserLogin = true;
+  const {data : session} = useSession()
+  const isUserLogin = session?.user;
 
-  const [providers,setProveiders] = useState(null);
+  const [providers, setProviders] = useState(null);
   const [toggleDropDown,setToggleDropdown] = useState(false)
 
   useEffect(() => {
-    const setProvides = async () => {
-     const response = await getProviders();
-     setProveiders(response)
-    }
-    setProvides()
+    (async () => {
+      const res = await getProviders();
+      setProviders(res);
+    })();
   }, [])
 
   return (
@@ -35,7 +35,6 @@ const Nav = () => {
            />
            <p className="logo_text">Promptopia</p>
       </Link>
-      
       {/* Desktop Navigation */}
       <div className="sm:flex hidden">
          {
